@@ -1,0 +1,19 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+<head>
+  {% include "message/includes/head.html" %}
+</head>
+
+<body>
+  {% block body %}
+  {% include "message/includes/main_block.html" %}
+  {% endblock %}
+<footer class="text-body-secondary py-5">
+    {% include "message/includes/footer.html" %}
+  </footer>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

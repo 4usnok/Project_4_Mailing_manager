@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>
+    <a href="{% url 'main_page:main_view' %}" class="btn btn-primary my-2"><h4>Вернуться на главную</h4></a>
+    <a href="{% url 'client:forms_new_client' %}" class="btn btn-primary my-2"><h4>Добавить нового клиента</h4></a>
+</p>
+
+<h1>Список клиентов</h1>
+{% for object in client_context %}
+    <div class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div class="col">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <p class="card-text">email: {{ object.email }}</p>
+                <p class="card-text">full_name: {{ object.full_name }}</p>
+                <p class="card-text">comment: {{ object.comment }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endfor %}
+</body>
+</html>
