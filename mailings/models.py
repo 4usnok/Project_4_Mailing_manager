@@ -30,4 +30,4 @@ class Newsletter(models.Model):
         ]
 
     def __str__(self):
-        return self.recipients
+        return self.status

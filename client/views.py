@@ -1,18 +1,32 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, FormView
+from django.views.generic import ListView, CreateView, FormView, DeleteView, UpdateView
 
 from client.forms import ClientForm
 from client.models import Recipient
 
 
 class MainClientView(ListView):
-    """ Просмотр страницы с сообщениями """
+    """ Просмотр страницы с клиентами """
     model = Recipient
     template_name = "client/client_list_page.html"
     context_object_name = 'client_context'
 
 class ClientAddView(CreateView):
-    """ Добавление сообщений """
+    """ Добавление клиентов """
+    model = Recipient
+    fields = '__all__'
+    template_name = "client/crud/form_client.html"
+    success_url = reverse_lazy('client:client_list')
+
+class ClientDeleteView(DeleteView):
+    """ Удаление клиентов """
+    model = Recipient
+    fields = '__all__'
+    template_name = "client/crud/client_delete.html"
+    success_url = reverse_lazy('client:client_list')
+
+class ClientUpdateView(UpdateView):
+    """ Редактирование клиентов """
     model = Recipient
     fields = '__all__'
     template_name = "client/crud/form_client.html"

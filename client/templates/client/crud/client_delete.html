@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><h2>Удалить ?</h2></title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Подтвердить</button>
+    <a class="btn btn-secondary" href="{% url 'client:client_list' %}">Назад к анкетам</a>
+</form>
+</body>
+</html>

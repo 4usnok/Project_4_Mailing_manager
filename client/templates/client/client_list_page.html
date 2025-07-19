@@ -21,6 +21,8 @@
                 <p class="card-text">email: {{ object.email }}</p>
                 <p class="card-text">full_name: {{ object.full_name }}</p>
                 <p class="card-text">comment: {{ object.comment }}</p>
+                  <a class="btn btn-primary" href="{% url 'client:forms_delete' object.pk %}" role="button">удалить</a>
+                  <a class="btn btn-primary" href="{% url 'client:forms_update' object.pk %}" role="button">редактировать</a>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
                   </div>
