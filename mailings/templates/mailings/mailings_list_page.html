@@ -8,6 +8,7 @@
 <p>
     <a href="{% url 'main_page:main_view' %}" class="btn btn-primary my-2"><h4>Вернуться на главную</h4></a>
     <a href="{% url 'mailings:forms_new_mail' %}" class="btn btn-primary my-2"><h4>Добавить новую рассылку</h4></a>
+    <a class="btn btn-primary" href="{% url 'mailings:mail' %}" role="button">Отправить рассылку на почту</a>
 </p>
 
 <h1>Список рассылок</h1>
@@ -25,7 +26,6 @@
                 <p class="card-text">Получатели: {{ object.recipients }}</p>
                   <a class="btn btn-primary" href="{% url 'mailings:forms_delete' object.pk %}" role="button">удалить</a>
                   <a class="btn btn-primary" href="{% url 'mailings:forms_update' object.pk %}" role="button">редактировать</a>
-                  <a class="btn btn-primary" href="{% url 'mailings:mail' %}" role="button">отправить</a>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
                   </div>
