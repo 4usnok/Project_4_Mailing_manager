@@ -1,8 +1,6 @@
-from django.contrib.auth import login
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView, DetailView
 from django.core.mail import send_mail
-from pyexpat.errors import messages
 
 from mailings.forms import MailingsForm
 from mailings.models import Newsletter
@@ -57,7 +55,14 @@ class MailingsUpdateView(UpdateView):
     model = Newsletter
     fields = '__all__'
     template_name = "mailings/crud/form_mailings.html"
-    success_url = reverse_lazy('mailings:mailings_list')
+    success_url = reverse_lazy('mailings:forms_detail')
+
+class MailingsDetailView(DetailView):
+    """ Подробная информация рассылки """
+    model = Newsletter
+    fields = '__all__'
+    template_name = "mailings/crud/detail_mailings.html"
+    success_url = reverse_lazy('mailings:forms_detail')
 
 class MailingsFormView(FormView):
     """ Форма для клиента"""

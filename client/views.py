@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, FormView, DeleteView, UpdateView
+from django.views.generic import ListView, CreateView, FormView, DeleteView, UpdateView, DetailView
 
 from client.forms import ClientForm
 from client.models import Recipient
@@ -30,7 +30,14 @@ class ClientUpdateView(UpdateView):
     model = Recipient
     fields = '__all__'
     template_name = "client/crud/form_client.html"
-    success_url = reverse_lazy('client:client_list')
+    success_url = reverse_lazy('client:forms_detail')
+
+class ClientDetailView(DetailView):
+    """ Подробная информация клиентов """
+    model = Recipient
+    fields = '__all__'
+    template_name = "client/crud/client_detail.html"
+    success_url = reverse_lazy('client:forms_detail')
 
 class ClientFormView(FormView):
     """ Форма для клиента"""

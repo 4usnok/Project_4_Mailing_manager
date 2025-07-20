@@ -1,19 +1,35 @@
-{% load static %}
-
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="auto">
+<html lang="en">
 <head>
-  {% include "message/includes/head.html" %}
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
-
 <body>
-  {% block body %}
-  {% include "message/includes/main_block.html" %}
-  {% endblock %}
-<footer class="text-body-secondary py-5">
-    {% include "message/includes/footer.html" %}
-  </footer>
-  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-</body>
+<p>
+    <a href="{% url 'main_page:main_view' %}" class="btn btn-primary my-2"><h4>Вернуться на главную</h4></a>
+    <a href="{% url 'message:forms_new_message' %}" class="btn btn-primary my-2"><h4>Добавить новое сообщение</h4></a>
+</p>
 
+<h1>Список сообщений</h1>
+{% for object in message_main %}
+    <div class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div class="col">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <p class="card-text">Тема письма: {{ object.topic_mail }}</p>
+                <p class="card-text">Тело письма: {{ object.body_mail }}</p>
+                  <p> <a href="{% url 'message:forms_detail' object.pk %}" class="btn btn-sm btn-outline-secondary">Посмотреть</a>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endfor %}
+</body>
 </html>
