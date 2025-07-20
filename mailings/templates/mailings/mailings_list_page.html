@@ -25,6 +25,7 @@
                 <p class="card-text">Получатели: {{ object.recipients }}</p>
                   <a class="btn btn-primary" href="{% url 'mailings:forms_delete' object.pk %}" role="button">удалить</a>
                   <a class="btn btn-primary" href="{% url 'mailings:forms_update' object.pk %}" role="button">редактировать</a>
+                  <a class="btn btn-primary" href="{% url 'mailings:mail' %}" role="button">отправить</a>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
                   </div>

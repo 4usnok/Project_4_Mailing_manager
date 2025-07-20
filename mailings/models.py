@@ -31,3 +31,28 @@ class Newsletter(models.Model):
 
     def __str__(self):
         return self.status
+
+class MailingAttempt(models.Model):
+    """ Модель 'Попытка рассылки' """
+    SUCCESSFUL = 'Успешно'
+    NOT_SUCCESSFUL = 'Не успешно'
+    STATUS_OF_ATTEMPT = [
+        (SUCCESSFUL, 'Успешно'),
+        (NOT_SUCCESSFUL, 'Не успешно'),
+    ]
+
+    dt_of_attempt = models.DateTimeField(auto_now=True)
+    status_of_attempt = models.CharField(max_length=100, choices=STATUS_OF_ATTEMPT, default=SUCCESSFUL, verbose_name="Статус попытки рассылки")
+    answer_server = models.TextField(null=True, blank=True, max_length=20,)
+    newsletter = models.ForeignKey(Newsletter, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = [
+            'dt_of_attempt',
+            'status_of_attempt',
+            'answer_server',
+            'newsletter',
+        ]
+
+        def __str__(self):
+            return self.answer_server
