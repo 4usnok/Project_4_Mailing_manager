@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView, DetailView
 from django.core.mail import send_mail
 
-from mailings.forms import MailingsForm
+from mailings.forms import MailingsForm, MailingAttemptForm
 from mailings.models import Newsletter
 
 
@@ -14,21 +14,21 @@ class MainMailingsView(ListView):
 
 class MailMailingsView(FormView):
     """ Отправка на почту """
-    form_class = MailingsForm
+    form_class = MailingAttemptForm
     template_name = 'mailings/form_mail_mailings.html'
     success_url = reverse_lazy('mailings:mailings_list')
 
     def form_valid(self, form):
         # Вызываем отправку письма
-        message_text = form.cleaned_data['message']  # Передаём сообщение из формы
-        recipients_text = form.cleaned_data['recipients']
-        status_text = form.cleaned_data['status']
+        dt_of_attempt = form.cleaned_data['dt_of_attempt']  # Передаём сообщение из формы
+        status_of_attempt = form.cleaned_data['status_of_attempt']
+        answer_server = form.cleaned_data['answer_server']
 
         subject = "Subject here"
         message = (f""
-                   f"сообщение: {message_text}\n"
-                   f"получатели: {recipients_text}"
-                   f"статус: {status_text}\n"
+                   f"Дата и время попытки: {dt_of_attempt}\n"
+                   f"Статус: {status_of_attempt}"
+                   f"Ответ почтового сервера: {answer_server}\n"
                    )
         from_mail = "chusnok25@yandex.ru"
         recipient_list = ["chusnok25@yandex.ru"]

@@ -1,4 +1,7 @@
+from datetime import timedelta, datetime
+
 from django.db import models
+from django.db.models.functions import Now, TruncMonth
 
 from client.models import Recipient
 from message.models import Message
@@ -41,7 +44,7 @@ class MailingAttempt(models.Model):
         (NOT_SUCCESSFUL, 'Не успешно'),
     ]
 
-    dt_of_attempt = models.DateTimeField(auto_now=True)
+    dt_of_attempt = models.DateTimeField(default=datetime.now)
     status_of_attempt = models.CharField(max_length=100, choices=STATUS_OF_ATTEMPT, default=SUCCESSFUL, verbose_name="Статус попытки рассылки")
     answer_server = models.TextField(null=True, blank=True, max_length=20,)
     newsletter = models.ForeignKey(Newsletter, on_delete=models.CASCADE)
