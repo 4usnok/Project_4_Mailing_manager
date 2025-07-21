@@ -13,12 +13,13 @@ class MainView(ListView):
     context_object_name = 'main_context'
 
     def get_context_data(self, **kwargs):
+        """ Отображение рассылок """
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                'item_count': Newsletter.objects.count(),
-                'active_count': Newsletter.objects.filter(status="Запущена").count(),
-                'unique_clients': Recipient.objects.distinct().count(),
+                'item_count': Newsletter.objects.count(), # количество всех рассылок
+                'active_count': Newsletter.objects.filter(status="Запущена").count(), # количество активных рассылок
+                'unique_clients': Recipient.objects.distinct().count(), # количество уникальных получателей
             }
         )
         return context
