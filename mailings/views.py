@@ -1,9 +1,14 @@
+from itertools import count
+from multiprocessing.connection import Client
+
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView, DetailView
 from django.core.mail import send_mail
 
 from mailings.forms import MailingsForm, MailingAttemptForm
 from mailings.models import Newsletter
+
 
 
 class MainMailingsView(ListView):

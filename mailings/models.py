@@ -1,8 +1,5 @@
-from datetime import timedelta, datetime
-
+from datetime import datetime
 from django.db import models
-from django.db.models.functions import Now, TruncMonth
-
 from client.models import Recipient
 from message.models import Message
 
