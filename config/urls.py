@@ -8,4 +8,5 @@ urlpatterns = [
     path('message/', include('message.urls', namespace='message')),
     path('client/', include('client.urls', namespace='client')),
     path('mailings/', include('mailings.urls', namespace='mailings')),
+    path('users/', include('users.urls', namespace='users'))
 ]

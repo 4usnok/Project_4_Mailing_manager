@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from django.conf.global_settings import STATIC_ROOT
+from django.conf.global_settings import STATIC_ROOT, LOGIN_REDIRECT_URL
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'message',
     'client',
     'mailings',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -128,7 +129,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = os.getenv("SECRET_MAIL") # любая реальная почта яндекса
@@ -137,3 +138,7 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+LOGIN_REDIRECT_URL = '/home/'
+LOGOUT_REDIRECT_URL = '/home/'
+

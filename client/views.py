@@ -30,7 +30,7 @@ class ClientUpdateView(UpdateView):
     model = Recipient
     fields = '__all__'
     template_name = "client/crud/form_client.html"
-    success_url = reverse_lazy('client:forms_detail')
+    success_url = reverse_lazy('client:client_list')
 
 class ClientDetailView(DetailView):
     """ Подробная информация клиентов """

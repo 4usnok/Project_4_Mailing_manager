@@ -5,6 +5,12 @@
     <title>Title</title>
 </head>
 <body>
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'users:logout' %}" style="float: right;">
+    {% csrf_token %}
+    <button type="submit" >Выйти</button>
+</form>
+<h1>Добро пожаловать, {{ user }}!</h1>
 <h1>Главная страница</h1>
 <a href="{% url 'client:client_list' %}" class="btn btn-sm btn-outline-secondary">Клиенты</a>
 <a href="{% url 'message:messages_list' %}" class="btn btn-sm btn-outline-secondary">Сообщения</a>
@@ -13,5 +19,15 @@
 <p>Всех рассылок: {{ item_count  }}</p>
 <p>Активных рассылок: {{ active_count }}</p>
 <p>Уникальных получателей: {{ unique_clients }}</p>
+{% endif %}
+{% if not user.is_authenticated %}
+<a href="{% url 'users:register' %}" style="float: right;" >Регистрация</a>
+<a href="{% url 'users:login' %}" style="float: right; margin-right: 10px;" >Вход</a>
+<h1>Добро пожаловать!</h1>
+<h1>Главная страница</h1>
+<a href="{% url 'client:client_list' %}" class="btn btn-sm btn-outline-secondary">Клиенты</a>
+<a href="{% url 'message:messages_list' %}" class="btn btn-sm btn-outline-secondary">Сообщения</a>
+<a href="{% url 'mailings:mailings_list' %}" class="btn btn-sm btn-outline-secondary">Рассылки</a>
+{% endif %}
 </body>
 </html>

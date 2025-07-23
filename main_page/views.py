@@ -3,6 +3,7 @@ from django.views.generic import ListView
 from client.models import Recipient
 
 from mailings.models import Newsletter
+from users.forms import UserRegistrationForm
 from main_page.models import Home
 
 
@@ -23,3 +24,4 @@ class MainView(ListView):
             }
         )
         return context
+

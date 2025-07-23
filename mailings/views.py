@@ -60,7 +60,7 @@ class MailingsUpdateView(UpdateView):
     model = Newsletter
     fields = '__all__'
     template_name = "mailings/crud/form_mailings.html"
-    success_url = reverse_lazy('mailings:forms_detail')
+    success_url = reverse_lazy('mailings:mailings_list')
 
 class MailingsDetailView(DetailView):
     """ Подробная информация рассылки """
