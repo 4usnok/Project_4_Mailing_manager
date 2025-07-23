@@ -1,0 +1,15 @@
+{% block content %}
+<a href="{% url 'main_page:main_view' %}" >Главная страница</a>
+    <h1>Форма входа</h1>
+    <form method="post">
+        {% csrf_token %}
+        логин
+        <p><input type="text" name="username" placeholder="Логин"></p>
+        пароль
+        <p><input type="password" name="password" placeholder="Пароль"></p>
+        <p>
+            <input type="submit" value="Подтвердить">
+            <a href="{% url 'users:password_reset' %}" >Забыли пароль ?</a>
+        </p>
+    </form>
+{% endblock %}

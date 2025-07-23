@@ -1,0 +1,8 @@
+{% block content %}
+<a href="{% url 'main_page:main_view' %}" >Главная страница</a>
+    <h1>Форма входа</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>Вы уверены ?<input type="submit" style="margin-left: 10px;" value="Подтвердить"></p>
+    </form>
+{% endblock %}

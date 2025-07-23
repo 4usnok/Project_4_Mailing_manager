@@ -1,0 +1,11 @@
+{% block content %}
+<a href="{% url 'main_page:main_view' %}" >Главная страница</a>
+    <h1>Форма регистрации</h1>
+    <form action="." method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <p>
+          <input type="submit" value="Подтвердить">
+        </p>
+    </form>
+{% endblock %}
