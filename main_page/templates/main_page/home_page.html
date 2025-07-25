@@ -10,7 +10,7 @@
     {% csrf_token %}
     <button type="submit" >Выйти</button>
 </form>
-<h1>Добро пожаловать, {{ user }}!</h1>
+<h1>Добро пожаловать, {{ user }}, мы рады вас видеть!</h1>
 <h1>Главная страница</h1>
 <a href="{% url 'client:client_list' %}" class="btn btn-sm btn-outline-secondary">Клиенты</a>
 <a href="{% url 'message:messages_list' %}" class="btn btn-sm btn-outline-secondary">Сообщения</a>
@@ -27,7 +27,7 @@
 {% if not user.is_authenticated %}
 <a href="{% url 'users:register' %}" style="float: right;" >Регистрация</a>
 <a href="{% url 'users:login' %}" style="float: right; margin-right: 10px;" >Вход</a>
-<h1>Добро пожаловать!</h1>
+<h1>Добро пожаловать к нам на сайт!</h1>
 <h1>Главная страница</h1>
 <a href="{% url 'client:client_list' %}" class="btn btn-sm btn-outline-secondary">Клиенты</a>
 <a href="{% url 'message:messages_list' %}" class="btn btn-sm btn-outline-secondary">Сообщения</a>
