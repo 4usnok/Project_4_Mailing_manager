@@ -15,6 +15,18 @@ files = [
 python-dotenv = "*"
 
 [[package]]
+name = "itsdangerous"
+version = "2.2.0"
+description = "Safely pass data to untrusted environments and back."
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "itsdangerous-2.2.0-py3-none-any.whl", hash = "sha256:c6242fc49e35958c8b15141343aa660db5fc54d4f13a1db01a3f5891b98700ef"},
+    {file = "itsdangerous-2.2.0.tar.gz", hash = "sha256:e0050c0b7da1eea53ffaf149c0cfbb5c6e2e2b69c4bef22c81fa6eb73e5f6173"},
+]
+
+[[package]]
 name = "python-dotenv"
 version = "1.1.1"
 description = "Read key-value pairs from a .env file and set them as environment variables"
@@ -30,6 +42,17 @@ files = [
 cli = ["click (>=5.0)"]
 
 [[package]]
+name = "tokens"
+version = "0.0.3"
+description = "tokens is a Python Package created for simply scraping discord account data with the use of an account token."
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "tokens-0.0.3.tar.gz", hash = "sha256:2bea467603cf36f6affbdf8f923b9d90aeaa69b5b812b0bbee1922eb05dd9b49"},
+]
+
+[[package]]
 name = "views"
 version = "0.3"
 description = "views"
@@ -43,4 +66,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13"
-content-hash = "66d2a6eb6aad1b8d60a8d9fdf5ae87c89681dd02862abff97f8f2737a1a1e4d1"
+content-hash = "fda11f427e403dd4975481023a766b852a91df1560463bead67dfcbf3b89e21d"
