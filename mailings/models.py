@@ -66,6 +66,7 @@ class MailingAttempt(models.Model):
             ("can_view_mailings", "Can view mailings"),
             ("can_update_mailings", "Can update mailings"),
             ("can_delete_mailings", "Can delete mailings"),
+            ("can_view_for_manager", "Can view for manager"),
         ]
 
         def __str__(self):

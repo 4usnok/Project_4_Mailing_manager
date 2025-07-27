@@ -7,14 +7,13 @@ from mailings.forms import MailingsForm, MailingAttemptForm
 from mailings.models import Newsletter
 
 
-class MainMailingsView(PermissionRequiredMixin, ListView):
+class MainMailingsView(ListView):
     """ Просмотр страницы с сообщениями """
     model = Newsletter
     template_name = "mailings/mailings_list_page.html"
     context_object_name = 'mailings_context'
-    permission_required = 'mailings.view_Newsletter'
 
-class MailMailingsView(PermissionRequiredMixin, FormView):
+class MailMailingsView(FormView):
     """ Отправка на почту """
     form_class = MailingAttemptForm
     template_name = 'mailings/form_mail_mailings.html'
@@ -38,7 +37,7 @@ class MailMailingsView(PermissionRequiredMixin, FormView):
 
         return super().form_valid(form)  # Перенаправляем на success_url
 
-class MailingsAddView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+class MailingsAddView(LoginRequiredMixin, CreateView):
     """ Добавление клиентов """
     model = Newsletter
     fields = [
@@ -48,14 +47,13 @@ class MailingsAddView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     ]
     template_name = "mailings/crud/form_mailings.html"
     success_url = reverse_lazy('mailings:mailings_list')
-    permission_required = 'mailings.add_Newsletter'
 
     def form_valid(self, form):
         form.instance.owner = self.request.user  # Устанавливаем владельца
         return super().form_valid(form)
 
 
-class MailingsDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+class MailingsDeleteView(LoginRequiredMixin, DeleteView):
     """ Удаление клиентов """
     model = Newsletter
     fields = [
@@ -65,7 +63,6 @@ class MailingsDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView
     ]
     template_name = "mailings/crud/mailings_delete.html"
     success_url = reverse_lazy('mailings:mailings_list')
-    permission_required = 'mailings.delete_Newsletter'
 
     def form_valid(self, form):
         form.instance.owner = self.request.user  # Устанавливаем владельца
@@ -78,7 +75,7 @@ class MailingsDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView
         return context
 
 
-class MailingsUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+class MailingsUpdateView(LoginRequiredMixin, UpdateView):
     """ Редактирование клиентов """
     model = Newsletter
     fields = [
@@ -88,7 +85,6 @@ class MailingsUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView
     ]
     template_name = "mailings/crud/form_mailings.html"
     success_url = reverse_lazy('mailings:mailings_list')
-    permission_required = 'mailings.change_Newsletter'
 
     def form_valid(self, form):
         form.instance.owner = self.request.user  # Устанавливаем владельца
@@ -100,7 +96,7 @@ class MailingsUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView
             raise PermissionDenied("У вас нет прав редактировать эту анкету.")
         return context
 
-class MailingsDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
+class MailingsDetailView(LoginRequiredMixin, DetailView):
     """ Подробная информация рассылки """
     model = Newsletter
     fields = [
@@ -110,7 +106,6 @@ class MailingsDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView
     ]
     template_name = "mailings/crud/detail_mailings.html"
     success_url = reverse_lazy('mailings:forms_detail')
-    permission_required = 'mailings.view_Newsletter'
 
     def form_valid(self, form):
         form.instance.owner = self.request.user  # Устанавливаем владельца
@@ -118,7 +113,8 @@ class MailingsDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView
 
     def get_object(self, queryset=None):
         context = super().get_object(queryset)
-        if context.owner != self.request.user:
+        if (context.owner != self.request.user
+                and not self.request.user.has_perm('mailings.can_view_for_manager')):
             raise PermissionDenied("У вас нет прав редактировать эту анкету.")
         return context
 
@@ -133,17 +129,16 @@ class MailingsFormView(FormView):
         form = form.save(commit=False).save()
         return super().form_valid(form)
 
-class StaticsView(PermissionRequiredMixin, ListView):
+class StaticsView(ListView):
     """ Просмотр страницы со статистикой """
     model = Newsletter
     template_name = "mailings/statics.html"
     context_object_name = 'mailings_context'
-    permission_required = 'mailings.view_Newsletter'
 
     def get_context_data(self, **kwargs):
         """ Отображение рассылок """
         context = super().get_context_data(**kwargs)
-        queryset = Newsletter.objects.filter(owner=self.request.user)
+        queryset = Newsletter.objects.filter(owner=self.request.user) # Фильтр по владельцу
 
         # Пропишем переменные для обращения к моделям рассылок
         completed_count = queryset.filter(status="Завершена").count()

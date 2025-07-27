@@ -21,6 +21,7 @@ class Recipient(models.Model):
             ("can_view_client", "Can view client"),
             ("can_update_recipient", "Can update recipient"),
             ("can_delete_recipient", "Can delete recipient"),
+            ("can_view_for_manager", "Can view for manager"),
         ]
 
 

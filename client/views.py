@@ -64,7 +64,8 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
     def get_object(self, queryset=None):
         """ Установка прав доступа для владельца """
         context = super().get_object(queryset)
-        if context.owner != self.request.user:
+        if (context.owner != self.request.user
+            and not self.request.user.has_perm('client.can_view_for_manager')):
             raise PermissionDenied("У вас нет прав редактировать эту анкету.")
         return context
 
