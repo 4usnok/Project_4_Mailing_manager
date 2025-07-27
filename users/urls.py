@@ -8,7 +8,6 @@ from users.views import UserRegisterView, UserConfirmEmailView, EmailConfirmatio
 app_name = 'users'
 
 
-
 urlpatterns = [
     path('register/', UserRegisterView.as_view(), name="register"),
     path('login/', LoginView.as_view(template_name="users/login_user.html"), name="login"),

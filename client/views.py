@@ -1,9 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, FormView, DeleteView, UpdateView, DetailView
 
 from client.forms import ClientForm
 from client.models import Recipient
-
 
 class MainClientView(ListView):
     """ Просмотр страницы с клиентами """
@@ -14,30 +15,58 @@ class MainClientView(ListView):
 class ClientAddView(CreateView):
     """ Добавление клиентов """
     model = Recipient
-    fields = '__all__'
+    fields = ['email', 'full_name', 'comment']
     template_name = "client/crud/form_client.html"
     success_url = reverse_lazy('client:client_list')
 
-class ClientDeleteView(DeleteView):
+    def form_valid(self, form):
+        """Присваивание владельца"""
+        form.instance.owner = self.request.user  # Устанавливаем владельца
+        return super().form_valid(form)
+
+class ClientDeleteView(LoginRequiredMixin, DeleteView):
     """ Удаление клиентов """
     model = Recipient
-    fields = '__all__'
+    fields = ['email', 'full_name', 'comment']
     template_name = "client/crud/client_delete.html"
     success_url = reverse_lazy('client:client_list')
+    permission_required = 'client.delete_Recipient'
 
-class ClientUpdateView(UpdateView):
+    def get_object(self, queryset=None):
+        """ Установка прав доступа для владельца """
+        context = super().get_object(queryset)
+        if context.owner != self.request.user:
+            raise PermissionDenied("У вас нет прав редактировать эту анкету.")
+        return context
+
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
     """ Редактирование клиентов """
     model = Recipient
-    fields = '__all__'
+    fields = ['email', 'full_name', 'comment']
     template_name = "client/crud/form_client.html"
     success_url = reverse_lazy('client:client_list')
 
-class ClientDetailView(DetailView):
+    def get_object(self, queryset=None):
+        """ Установка прав доступа для владельца """
+        context = super().get_object(queryset)
+        if context.owner != self.request.user:
+            raise PermissionDenied("У вас нет прав редактировать эту анкету.")
+        return context
+
+class ClientDetailView(LoginRequiredMixin, DetailView):
     """ Подробная информация клиентов """
     model = Recipient
-    fields = '__all__'
+    fields = ['email', 'full_name', 'comment']
     template_name = "client/crud/client_detail.html"
     success_url = reverse_lazy('client:forms_detail')
+    permission_required = 'client.view_Recipient'
+
+    def get_object(self, queryset=None):
+        """ Установка прав доступа для владельца """
+        context = super().get_object(queryset)
+        if context.owner != self.request.user:
+            raise PermissionDenied("У вас нет прав редактировать эту анкету.")
+        return context
 
 class ClientFormView(FormView):
     """ Форма для клиента"""

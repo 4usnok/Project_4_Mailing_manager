@@ -1,23 +1,20 @@
-from itertools import count
-from multiprocessing.connection import Client
-
-from django.shortcuts import render
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView, DetailView
 from django.core.mail import send_mail
-
 from mailings.forms import MailingsForm, MailingAttemptForm
 from mailings.models import Newsletter
 
 
-
-class MainMailingsView(ListView):
+class MainMailingsView(PermissionRequiredMixin, ListView):
     """ Просмотр страницы с сообщениями """
     model = Newsletter
     template_name = "mailings/mailings_list_page.html"
     context_object_name = 'mailings_context'
+    permission_required = 'mailings.view_Newsletter'
 
-class MailMailingsView(FormView):
+class MailMailingsView(PermissionRequiredMixin, FormView):
     """ Отправка на почту """
     form_class = MailingAttemptForm
     template_name = 'mailings/form_mail_mailings.html'
@@ -41,33 +38,90 @@ class MailMailingsView(FormView):
 
         return super().form_valid(form)  # Перенаправляем на success_url
 
-class MailingsAddView(CreateView):
+class MailingsAddView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     """ Добавление клиентов """
     model = Newsletter
-    fields = '__all__'
+    fields = [
+        'status',
+        'message',
+        'recipients',
+    ]
     template_name = "mailings/crud/form_mailings.html"
     success_url = reverse_lazy('mailings:mailings_list')
+    permission_required = 'mailings.add_Newsletter'
 
-class MailingsDeleteView(DeleteView):
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Устанавливаем владельца
+        return super().form_valid(form)
+
+
+class MailingsDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     """ Удаление клиентов """
     model = Newsletter
-    fields = '__all__'
+    fields = [
+        'status',
+        'message',
+        'recipients',
+    ]
     template_name = "mailings/crud/mailings_delete.html"
     success_url = reverse_lazy('mailings:mailings_list')
+    permission_required = 'mailings.delete_Newsletter'
 
-class MailingsUpdateView(UpdateView):
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Устанавливаем владельца
+        return super().form_valid(form)
+
+    def get_object(self, queryset=None):
+        context = super().get_object(queryset)
+        if context.owner != self.request.user:
+            raise PermissionDenied("У вас нет прав редактировать эту анкету.")
+        return context
+
+
+class MailingsUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     """ Редактирование клиентов """
     model = Newsletter
-    fields = '__all__'
+    fields = [
+        'status',
+        'message',
+        'recipients',
+    ]
     template_name = "mailings/crud/form_mailings.html"
     success_url = reverse_lazy('mailings:mailings_list')
+    permission_required = 'mailings.change_Newsletter'
 
-class MailingsDetailView(DetailView):
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Устанавливаем владельца
+        return super().form_valid(form)
+
+    def get_object(self, queryset=None):
+        context = super().get_object(queryset)
+        if context.owner != self.request.user:
+            raise PermissionDenied("У вас нет прав редактировать эту анкету.")
+        return context
+
+class MailingsDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
     """ Подробная информация рассылки """
     model = Newsletter
-    fields = '__all__'
+    fields = [
+        'status',
+        'message',
+        'recipients',
+    ]
     template_name = "mailings/crud/detail_mailings.html"
     success_url = reverse_lazy('mailings:forms_detail')
+    permission_required = 'mailings.view_Newsletter'
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Устанавливаем владельца
+        return super().form_valid(form)
+
+    def get_object(self, queryset=None):
+        context = super().get_object(queryset)
+        if context.owner != self.request.user:
+            raise PermissionDenied("У вас нет прав редактировать эту анкету.")
+        return context
+
 
 class MailingsFormView(FormView):
     """ Форма для клиента"""
@@ -78,3 +132,27 @@ class MailingsFormView(FormView):
     def form_valid(self, form):
         form = form.save(commit=False).save()
         return super().form_valid(form)
+
+class StaticsView(PermissionRequiredMixin, ListView):
+    """ Просмотр страницы со статистикой """
+    model = Newsletter
+    template_name = "mailings/statics.html"
+    context_object_name = 'mailings_context'
+    permission_required = 'mailings.view_Newsletter'
+
+    def get_context_data(self, **kwargs):
+        """ Отображение рассылок """
+        context = super().get_context_data(**kwargs)
+        queryset = Newsletter.objects.filter(owner=self.request.user)
+
+        # Пропишем переменные для обращения к моделям рассылок
+        completed_count = queryset.filter(status="Завершена").count()
+        unsuccessful_mailings = queryset.exclude(status="Завершена").count()
+        context.update(
+            {
+                'successful_mailings': completed_count,  # успешные попытки рассылок
+                'unsuccessful_mailings': unsuccessful_mailings,  # неуспешные попытки рассылок
+                'sent_messages': completed_count,  # количество отправленных сообщений
+            }
+        )
+        return context

@@ -12,9 +12,15 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Home',
+            name='UsersModels',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('email_name', models.CharField(unique=True)),
             ],
+            options={
+                'verbose_name': 'пользователь',
+                'verbose_name_plural': 'пользователи',
+                'ordering': ['email_name'],
+            },
         ),
     ]

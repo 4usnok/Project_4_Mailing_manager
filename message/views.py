@@ -15,28 +15,32 @@ class MainMessageView(ListView):
 class MessageAddView(CreateView):
     """ Добавление сообщений """
     model = Message
-    fields = '__all__'
+    fields = ['topic_mail',
+            'body_mail',]
     template_name = "message/crud/form_message.html"
     success_url = reverse_lazy('message:messages_list')
 
 class MessageUpdateView(UpdateView):
     """ Редактирование получателей """
     model = Message
-    fields = '__all__'
+    fields = ['topic_mail',
+            'body_mail',]
     template_name = "message/crud/form_message.html"
     success_url = reverse_lazy('message:messages_list')
 
 class MessageDeleteView(DeleteView):
     """ Удаление получателей """
     model = Message
-    fields = '__all__'
+    fields = ['topic_mail',
+            'body_mail',]
     template_name = "message/crud/delete_message.html"
     success_url = reverse_lazy('message:messages_list')
 
 class MessageDetailView(DetailView):
     """ Подробная информация получателей """
     model = Message
-    fields = '__all__'
+    fields = ['topic_mail',
+            'body_mail',]
     template_name = "message/crud/detail_message.html"
     success_url = reverse_lazy('message:messages_list')
 
