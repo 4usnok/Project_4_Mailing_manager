@@ -12,9 +12,13 @@
 </form>
 <h1>Добро пожаловать, {{ user }}, мы рады вас видеть!</h1>
 <h1>Главная страница</h1>
+{% if perms.client.can_view_client_list %}
 <a href="{% url 'client:client_list' %}" class="btn btn-sm btn-outline-secondary">Клиенты</a>
+{% endif %}
 <a href="{% url 'message:messages_list' %}" class="btn btn-sm btn-outline-secondary">Сообщения</a>
+{% if perms.client.can_view_mailings %}
 <a href="{% url 'mailings:mailings_list' %}" class="btn btn-sm btn-outline-secondary">Рассылки</a>
+{% endif %}
 {% if perms.users.can_view_for_list_user %}
 <a href="{% url 'users:users_list' %}" class="btn btn-sm btn-outline-secondary">Список пользователей</a>
 {% endif %}

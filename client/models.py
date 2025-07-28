@@ -16,7 +16,9 @@ class Recipient(models.Model):
             'full_name',
             'comment',
         ]
-
+        permissions = [
+            ('can_view_client_list', 'Can view client list'),
+        ]
 
     def __str__(self):
         return self.email

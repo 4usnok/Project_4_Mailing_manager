@@ -62,7 +62,8 @@ class MailingAttempt(models.Model):
             'newsletter',
         ]
         permissions = [
-            ("can_view_for_manager", "Can view for manager"),
+            ("can_view_mailings", "Can view mailings"),
+            ("can_view_statics", "Can view statics"),
         ]
 
         def __str__(self):

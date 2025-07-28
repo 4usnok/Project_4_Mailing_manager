@@ -2,7 +2,7 @@ from django.urls import path
 
 from client.views import MainClientView, ClientAddView, ClientDeleteView, ClientUpdateView, ClientDetailView
 
-app_name = 'message'
+app_name = 'client'
 
 urlpatterns = [
     path('', MainClientView.as_view(), name="client_list"),
