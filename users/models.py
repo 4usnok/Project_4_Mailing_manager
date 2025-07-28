@@ -16,6 +16,7 @@ class UsersList(models.Model):
         ]
         permissions = [
             ("can_view_for_list_user", "Can view for list user"),
+            ("can_block_user", "Can block user"),
         ]
 
     def __str__(self):

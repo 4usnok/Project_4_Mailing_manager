@@ -19,11 +19,13 @@
                     <div class="card-body">
                         <p class="card-text">name: {{ user.username }}</p>
                         <p class="card-text">email: {{ user.email }}</p>
+                        {% if perms.users.can_block_user %}
                         <p class="card-text">active_user: {{ user.is_active }}</p>
                         {% if user.is_active == True %}
                         <a class="btn btn-primary" href="{% url 'users:user_block_status' user.pk %}" role="button">заблокировать</a>
                         {% elif user.is_active == False %}
                         <a class="btn btn-primary" href="{% url 'users:user_block_status' user.pk %}" role="button">разблокировать</a>
+                        {% endif %}
                         {% endif %}
                     </div>
                 </div>

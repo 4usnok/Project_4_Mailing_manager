@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
@@ -156,13 +157,15 @@ class StaticsView(ListView):
         return context
 
 class DisablingMailings(LoginRequiredMixin, View):
-    """ Класс для блокировки юзера """
+    """ Класс для отключения рассылки """
+    model = Newsletter
+    template_name = "mailings/dis_mailings.html"
+    success_url = reverse_lazy('mailings:mailings_list')
 
-    def get_context_data(self, request, pk):
+    def post(self, request, pk):
         mailing_status = get_object_or_404(Newsletter, pk=pk)
-        if mailing_status.status == 'Завершена':
-            mailing_status.status = 'Создана'
-        else:
-            mailing_status.status = 'Завершена'
+
+        # Логика переключения статуса
+        mailing_status.status = 'Завершена' if mailing_status.status == 'Создана' else 'Создана'
         mailing_status.save()
-        return redirect('mailings:mailings_list')
+        return redirect(self.success_url)
