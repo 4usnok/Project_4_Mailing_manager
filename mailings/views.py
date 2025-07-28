@@ -1,7 +1,10 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView, DetailView
+from django.views import View
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView, DetailView, TemplateView
 from django.core.mail import send_mail
 from mailings.forms import MailingsForm, MailingAttemptForm
 from mailings.models import Newsletter
@@ -151,3 +154,15 @@ class StaticsView(ListView):
             }
         )
         return context
+
+class DisablingMailings(LoginRequiredMixin, View):
+    """ Класс для блокировки юзера """
+
+    def get_context_data(self, request, pk):
+        mailing_status = get_object_or_404(Newsletter, pk=pk)
+        if mailing_status.status == 'Завершена':
+            mailing_status.status = 'Создана'
+        else:
+            mailing_status.status = 'Завершена'
+        mailing_status.save()
+        return redirect('mailings:mailings_list')

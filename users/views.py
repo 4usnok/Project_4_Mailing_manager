@@ -1,21 +1,23 @@
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, ListView
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
+from django.contrib.auth.views import PasswordResetView as AuthPasswordResetView
+
 
 
 from users.forms import UserRegistrationForm
 
-
 class UserRegisterView(SuccessMessageMixin, CreateView):
-    """ Функция для регистрации """
+    """ Класс для регистрации """
     template_name = 'users/register.html'
     success_url = reverse_lazy("users:login")
     form_class = UserRegistrationForm
@@ -86,3 +88,22 @@ class EmailConfirmationFailedView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Ваш электронный адрес не активирован'
         return context
+
+class UserListView(ListView):
+    model=User
+    template_name='users/users_list.html'
+    context_object_name = 'users_context'
+
+
+class UserBlock(LoginRequiredMixin, TemplateView):
+    """ Класс для блокировки юзера """
+    template_name='users/user_block_status.html'
+
+    def post(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
+        if user.is_active == True:
+            user.is_active = False
+        elif user.is_active == False:
+            user.is_active = True
+        user.save()
+        return redirect('users:users_list')

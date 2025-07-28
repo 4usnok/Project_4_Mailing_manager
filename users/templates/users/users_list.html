@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>
+    <a href="{% url 'main_page:main_view' %}" class="btn btn-primary my-2"><h4>Вернуться на главную</h4></a>
+<p class="card-text">Ваше имя: {{ user }}</p>
+</p>
+<h1>Список пользователей</h1>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for user in users_context %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text">name: {{ user.username }}</p>
+                        <p class="card-text">email: {{ user.email }}</p>
+                        <p class="card-text">active_user: {{ user.is_active }}</p>
+                        {% if user.is_active == True %}
+                        <a class="btn btn-primary" href="{% url 'users:user_block_status' user.pk %}" role="button">заблокировать</a>
+                        {% elif user.is_active == False %}
+                        <a class="btn btn-primary" href="{% url 'users:user_block_status' user.pk %}" role="button">разблокировать</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

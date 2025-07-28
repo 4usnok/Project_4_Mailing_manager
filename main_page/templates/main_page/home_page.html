@@ -15,6 +15,9 @@
 <a href="{% url 'client:client_list' %}" class="btn btn-sm btn-outline-secondary">Клиенты</a>
 <a href="{% url 'message:messages_list' %}" class="btn btn-sm btn-outline-secondary">Сообщения</a>
 <a href="{% url 'mailings:mailings_list' %}" class="btn btn-sm btn-outline-secondary">Рассылки</a>
+{% if perms.Recipient.can_view_for_manager %}
+<a href="{% url 'users:users_list' %}" class="btn btn-sm btn-outline-secondary">Список пользователей</a>
+{% endif %}
 <h1>Рассылки:</h1>
 <p>Всех рассылок: {{ item_count  }}</p>
 <p>Активных рассылок: {{ active_count }}</p>

@@ -1,7 +1,7 @@
 from django.urls import path
 
 from mailings.views import MainMailingsView, MailingsAddView, MailingsDeleteView, MailingsUpdateView, MailMailingsView, \
-    MailingsDetailView, StaticsView
+    MailingsDetailView, StaticsView, DisablingMailings
 
 app_name = 'mailings'
 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('detail/<int:pk>', MailingsDetailView.as_view(), name="forms_detail"),
     path('delete/<int:pk>', MailingsDeleteView.as_view(), name="forms_delete"),
     path('update/<int:pk>', MailingsUpdateView.as_view(), name="forms_update"),
+    path('dis_mailings/<int:pk>/', DisablingMailings.as_view(), name='dis_mailings'),
 ]
