@@ -14,6 +14,9 @@ class UsersList(models.Model):
             'owner',
             'email_name',
         ]
+        permissions = [
+            ("can_view_for_list_user", "Can view for list user"),
+        ]
 
     def __str__(self):
         return self.owner

@@ -16,9 +16,6 @@ class Recipient(models.Model):
             'full_name',
             'comment',
         ]
-        permissions = [
-            ("can_view_for_manager", "Can view for manager"),
-        ]
 
 
     def __str__(self):
