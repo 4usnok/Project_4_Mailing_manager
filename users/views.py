@@ -10,11 +10,16 @@ from django.views.generic import CreateView, TemplateView, ListView
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
-from django.contrib.auth.views import PasswordResetView as AuthPasswordResetView
-
 
 
 from users.forms import UserRegistrationForm
+
+class UserListView(ListView):
+    """ Класс для просмотра списка пользователей """
+    model=User
+    template_name='users/users_list.html'
+    context_object_name = 'users_context'
+
 
 class UserRegisterView(SuccessMessageMixin, CreateView):
     """ Класс для регистрации """
@@ -88,11 +93,6 @@ class EmailConfirmationFailedView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Ваш электронный адрес не активирован'
         return context
-
-class UserListView(ListView):
-    model=User
-    template_name='users/users_list.html'
-    context_object_name = 'users_context'
 
 
 class UserBlock(LoginRequiredMixin, TemplateView):
