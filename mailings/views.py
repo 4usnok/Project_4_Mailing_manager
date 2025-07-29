@@ -1,19 +1,33 @@
+from idlelib.debugobj import dispatch
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView, FormView, DetailView, TemplateView
 from django.core.mail import send_mail
 from mailings.forms import MailingsForm, MailingAttemptForm
 from mailings.models import Newsletter
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class MainMailingsView(LoginRequiredMixin, ListView):
     """ Просмотр страницы с сообщениями """
     model = Newsletter
     template_name = "mailings/mailings_list_page.html"
     context_object_name = 'mailings_context'
+
+    def get_queryset(self):
+        """ низкоуровневое кэширование """
+        queryset = cache.get('mailings_context_queryset')
+        if not queryset:
+            queryset = super().get_queryset()
+            cache.get('mailings_context_queryset', queryset, 60 * 15)
+        return queryset
 
 class MailMailingsView(FormView):
     """ Отправка на почту """
@@ -98,6 +112,7 @@ class MailingsUpdateView(LoginRequiredMixin, UpdateView):
             raise PermissionDenied("У вас нет прав редактировать эту анкету.")
         return context
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class MailingsDetailView(LoginRequiredMixin, DetailView):
     """ Подробная информация рассылки """
     model = Newsletter
@@ -120,7 +135,7 @@ class MailingsDetailView(LoginRequiredMixin, DetailView):
             raise PermissionDenied("У вас нет прав редактировать эту анкету.")
         return context
 
-
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class MailingsFormView(FormView):
     """ Форма для клиента"""
     form_class = MailingsForm
@@ -131,6 +146,7 @@ class MailingsFormView(FormView):
         form = form.save(commit=False).save()
         return super().form_valid(form)
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class StaticsView(ListView):
     """ Просмотр страницы со статистикой """
     model = Newsletter

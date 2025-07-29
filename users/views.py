@@ -2,10 +2,13 @@ from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.cache import cache
 from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import CreateView, TemplateView, ListView
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -14,12 +17,21 @@ from django.utils.encoding import force_bytes
 
 from users.forms import UserRegistrationForm
 
+
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class UserListView(ListView):
     """ Класс для просмотра списка пользователей """
     model=User
     template_name='users/users_list.html'
     context_object_name = 'users_context'
 
+    def get_queryset(self):
+        """ низкоуровневое кэширование """
+        queryset = cache.get('users_context')
+        if not queryset:
+            queryset = super().get_queryset()
+            cache.get('users_context_queryset', queryset, 60 * 15)
+        return queryset
 
 class UserRegisterView(SuccessMessageMixin, CreateView):
     """ Класс для регистрации """

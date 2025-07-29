@@ -1,14 +1,26 @@
+from django.core.cache import cache
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView
 from client.models import Recipient
 from mailings.models import Newsletter
 from main_page.models import Home
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class MainView(ListView):
     """ Просмотр главной страницы """
     model = Home
     template_name = "main_page/home_page.html"
     context_object_name = 'main_context'
+
+    def get_queryset(self):
+        """ низкоуровневое кэширование """
+        queryset = cache.get('main_context')
+        if not queryset:
+            queryset = super().get_queryset()
+            cache.get('main_context_queryset', queryset, 60 * 15)
+        return queryset
 
     def get_context_data(self, **kwargs):
         """ Отображение рассылок """

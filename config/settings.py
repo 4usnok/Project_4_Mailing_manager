@@ -1,7 +1,8 @@
 import os
+from email.policy import default
 from pathlib import Path
 
-from django.conf.global_settings import STATIC_ROOT, LOGIN_REDIRECT_URL, LOGIN_URL
+from django.conf.global_settings import STATIC_ROOT, LOGIN_REDIRECT_URL, LOGIN_URL, CACHES
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -145,3 +146,10 @@ LOGIN_REDIRECT_URL = '/home/'
 LOGOUT_REDIRECT_URL = '/home/'
 
 LOGIN_URL = '/users/login/'
+
+CACHES = {
+    'default': {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": f"redis://{os.getenv("DATABASE_HOST")}:6379/",
+    }
+}
