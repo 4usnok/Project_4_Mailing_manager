@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from django.conf.global_settings import STATIC_ROOT, LOGIN_REDIRECT_URL
+from django.conf.global_settings import STATIC_ROOT, LOGIN_REDIRECT_URL, LOGIN_URL
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -143,3 +143,5 @@ SITE_URL = 'http://localhost:8000'
 
 LOGIN_REDIRECT_URL = '/home/'
 LOGOUT_REDIRECT_URL = '/home/'
+
+LOGIN_URL = '/users/login/'
