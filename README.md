@@ -133,6 +133,7 @@ pip install -r requirements.txt
 * После чего, в консоли появляется вся необходимая информация: статус-код, ссылка для перехода и тд.,
 * Перейдя по ссылке из консоли с описанном в `.env.sample`, Django осведомит о 404 ошибке (Page not found 404) после чего, предложит добавить в адресную строку представленные namespace,
 
+# Полезные команды
 * Запуск сервера: `python manage.py runserver`,
 * Создание суперюзера(админка): `python manage.py createsuperuser`,
 * Создание миграций: `python manage.py makemigrations`,
