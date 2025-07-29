@@ -11,7 +11,7 @@ from mailings.forms import MailingsForm, MailingAttemptForm
 from mailings.models import Newsletter
 
 
-class MainMailingsView(ListView):
+class MainMailingsView(LoginRequiredMixin, ListView):
     """ Просмотр страницы с сообщениями """
     model = Newsletter
     template_name = "mailings/mailings_list_page.html"

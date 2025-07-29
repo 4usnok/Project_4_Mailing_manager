@@ -35,6 +35,10 @@
 <a href="{% url 'client:client_list' %}" class="btn btn-sm btn-outline-secondary">Клиенты</a>
 <a href="{% url 'message:messages_list' %}" class="btn btn-sm btn-outline-secondary">Сообщения</a>
 <a href="{% url 'mailings:mailings_list' %}" class="btn btn-sm btn-outline-secondary">Рассылки</a>
+<h1>Рассылки:</h1>
+<p>Всех рассылок: {{ item_count  }}</p>
+<p>Активных рассылок: {{ active_count }}</p>
+<p>Уникальных получателей: {{ unique_clients }}</p>
 {% endif %}
 </body>
 </html>

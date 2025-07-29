@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView, UpdateView, DeleteView, DetailView
 from django.views.generic import ListView
@@ -6,7 +7,7 @@ from message.forms import MessageForm
 from message.models import Message
 
 
-class MainMessageView(ListView):
+class MainMessageView(LoginRequiredMixin, ListView):
     """ Просмотр страницы с сообщениями """
     model = Message
     template_name = "message/message_list_page.html"

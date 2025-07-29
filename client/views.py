@@ -6,7 +6,7 @@ from django.views.generic import ListView, CreateView, FormView, DeleteView, Upd
 from client.forms import ClientForm
 from client.models import Recipient
 
-class MainClientView(ListView):
+class MainClientView(LoginRequiredMixin, ListView):
     """ Просмотр страницы с клиентами """
     model = Recipient
     template_name = "client/client_list_page.html"
