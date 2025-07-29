@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+  {% include '../includes/head.html' %}
+  <meta charset="UTF-8">
 </head>
 <body>
-<a class="btn btn-primary" href="{% url 'main_page:main_view' %}" role="button">Главная страница</a>
+<a class="btn btn-sm btn-outline-secondary" href="{% url 'main_page:main_view' %}" role="button">Главная страница</a>
 <form method="post">
     {% csrf_token %}
     <div class="album py-5 bg-body-tertiary">
@@ -17,8 +18,8 @@
                 <p class="card-text">Тело письма: {{ object.body_mail }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <p> <a href="{% url 'message:forms_update' object.pk %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
-                    <p> <a href="{% url 'message:forms_delete' object.pk %}" class="btn btn-sm btn-outline-secondary">Удалить</a>
+                    <p> <a href="{% url 'message:forms_update' object.pk %}" class="btn btn-sm btn-outline-warning">Редактировать</a>
+                    <p> <a href="{% url 'message:forms_delete' object.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
                   </div>
               </div>
             </div>

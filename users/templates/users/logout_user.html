@@ -1,8 +1,9 @@
 {% block content %}
-<a href="{% url 'main_page:main_view' %}" >Главная страница</a>
+{% include './includes/head.html' %}
+    <a href="{% url 'main_page:main_view' %}" class="btn btn-sm btn-outline-secondary"><h4>Вернуться на главную</h4></a>
     <h1>Форма входа</h1>
     <form method="post">
         {% csrf_token %}
-        <p>Вы уверены ?<input type="submit" style="margin-left: 10px;" value="Подтвердить"></p>
+        <p>Вы уверены ?<input type="submit" style="margin-left: 10px;" class="btn btn-sm btn-outline-success" value="Подтвердить"></p>
     </form>
 {% endblock %}

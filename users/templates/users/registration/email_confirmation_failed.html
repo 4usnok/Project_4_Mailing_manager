@@ -1,4 +1,7 @@
 {% block content %}
+<head>
+    {% include '../includes/head.html' %}
+</head>
 <a href="{% url 'main_page:main_view' %}" >Главная страница</a>
 <div class="alert alert-danger" role="alert">
     <h4 class="alert-heading">Ошибка подтверждения по электронной почте</h4>

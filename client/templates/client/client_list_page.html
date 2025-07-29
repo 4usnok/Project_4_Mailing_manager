@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    {% include './includes/head.html' %}
 </head>
 <body>
 <p>
-    <a href="{% url 'main_page:main_view' %}" class="btn btn-primary my-2"><h4>Вернуться на главную</h4></a>
-    <a href="{% url 'client:forms_new_client' %}" class="btn btn-primary my-2"><h4>Добавить нового клиента</h4></a>
+    <a href="{% url 'main_page:main_view' %}" class="btn btn-sm btn-outline-primary my-2"><h4>Вернуться на главную</h4></a>
+    <a href="{% url 'client:forms_new_client' %}" class="btn btn-sm btn-outline-primary my-2"><h4>Добавить нового клиента</h4></a>
 </p>
 
 <h1>Список клиентов</h1>
@@ -21,7 +20,7 @@
                 <p class="card-text">email: {{ object.email }}</p>
                 <p class="card-text">full_name: {{ object.full_name }}</p>
                 <p class="card-text">comment: {{ object.comment }}</p>
-                  <a class="btn btn-primary" href="{% url 'client:forms_detail' object.pk%}" role="button">посмотреть</a>
+                  <a class="btn btn-sm btn-outline-primary" href="{% url 'client:forms_detail' object.pk%}" role="button">посмотреть</a>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
                   </div>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    {% include './includes/head.html' %}
     <title><h2>Подтвердить действие ?</h2></title>
 </head>
 <body>
 <form method="post">
     {% csrf_token %}
-    <button type="submit">Подтвердить</button>
-    <a class="btn btn-secondary" href="{% url 'client:client_list' %}">Назад к пользователям</a>
+    <button type="submit" class="btn btn-sm btn-outline-success" >Подтвердить</button>
+    <a class="btn btn-sm btn-outline-secondary" href="{% url 'client:client_list' %}">Назад к пользователям</a>
 </form>
 </body>
 </html>
