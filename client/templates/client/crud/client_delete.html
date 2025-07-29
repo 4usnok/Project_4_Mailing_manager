@@ -8,7 +8,7 @@
 <form method="post">
     {% csrf_token %}
     <button class="btn btn-sm btn-outline-danger" type="submit">Подтвердить</button>
-    <a class="btn btn-sm btn-outline-secondary" href="{% url 'client:client_list' %}">Назад к анкетам</a>
+    <a class="btn btn-sm btn-outline-secondary btn-sm" href="{% url 'client:client_list' %}">Назад к анкетам</a>
 </form>
 </body>
 </html>

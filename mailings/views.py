@@ -32,7 +32,7 @@ class MainMailingsView(LoginRequiredMixin, ListView):
 class MailMailingsView(FormView):
     """ Отправка на почту """
     form_class = MailingAttemptForm
-    template_name = 'mailings/form_mailings.html'
+    template_name = 'mailings/crud/form_mailings.html'
     success_url = reverse_lazy('mailings:mailings_list')
 
     def form_valid(self, form):
