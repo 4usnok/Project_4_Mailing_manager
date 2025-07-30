@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include './includes/head.html' %}
+    <a href="{% url 'main_page:main_view' %}" class="btn btn-outline-secondary my-2">Вернуться на главную</a>
+</head>
+<h1>Список пользователей</h1>
+<p class="card-text">Ваше имя: {{ user }}</p>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for user in users_context %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text">name: {{ user.username }}</p>
+                        <p class="card-text">email: {{ user.email }}</p>
+                        {% if perms.users.can_block_user %}
+                        <p class="card-text">active_user: {{ user.is_active }}</p>
+                        {% if user.is_active == True %}
+                        <a class="btn btn-danger" href="{% url 'users:user_block_status' user.pk %}" role="button">заблокировать</a>
+                        {% elif user.is_active == False %}
+                        <a class="btn btn-success" href="{% url 'users:user_block_status' user.pk %}" role="button">разблокировать</a>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

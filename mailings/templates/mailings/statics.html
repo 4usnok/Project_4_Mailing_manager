@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include './includes/head.html' %}
+    <a class="btn btn-outline-secondary my-2" href="{% url 'mailings:mailings_list' %}">К рассылкам</a>
+</head>
+<body>
+<h1>Статистика и отчеты</h1>
+<p>Успешные попытки рассылки: {{ successful_mailings  }}</p>
+<p>Неуспешные попытки рассылки: {{ unsuccessful_mailings }}</p>
+<p>Отправленные сообщения: {{ sent_messages }}</p>
+</body>
+</html>

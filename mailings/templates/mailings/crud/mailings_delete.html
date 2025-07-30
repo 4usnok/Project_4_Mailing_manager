@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include '../includes/head.html' %}
+    <title><h2>Удалить ?</h2></title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger my-2">Подтвердить</button>
+    <a class="btn btn-outline-secondary my-2" href="{% url 'mailings:mailings_list' %}">К рассылкам</a>
+</form>
+</body>
+</html>

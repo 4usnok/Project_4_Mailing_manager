@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include './includes/head.html' %}
+    <a href="{% url 'main_page:main_view' %}" class="btn btn-outline-secondary my-2">Вернуться на главную</a>
+</head>
+<body>
+<h1>Список клиентов</h1>
+<a href="{% url 'client:forms_new_client' %}" class="btn btn-outline-primary my-2">Добавить нового клиента</a>
+{% for object in client_context %}
+    <div class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div class="col">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <p class="card-text">email: {{ object.email }}</p>
+                <p class="card-text">full_name: {{ object.full_name }}</p>
+                <p class="card-text">comment: {{ object.comment }}</p>
+                  <a class="btn btn-sm btn-outline-primary" href="{% url 'client:forms_detail' object.pk%}" role="button">посмотреть</a>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endfor %}
+</body>
+</html>

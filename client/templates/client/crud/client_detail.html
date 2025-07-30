@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include '../includes/head.html' %}
+</head>
+<body>
+<a class="btn btn-outline-secondary my-2" href="{% url 'main_page:main_view' %}" role="button">Главная страница</a>
+<form method="post">
+    {% csrf_token %}
+    <div class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div class="col">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <p class="card-text">Эл.почта: {{ object.email }}</p>
+                <p class="card-text">ФИО: {{ object.full_name }}</p>
+                <p class="card-text">Комментарий: {{ object.comment }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a class="btn btn-outline-warning" href="{% url 'client:forms_update' object.pk %}">редактировать</a>
+                    <a class="btn btn-outline-danger" href="{% url 'client:forms_delete' object.pk %}">удалить</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include '../includes/head.html' %}
+</head>
+<body>
+<a class="btn btn-outline-secondary my-2" href="{% url 'main_page:main_view' %}" role="button">Главная страница</a>
+<form method="post">
+    {% csrf_token %}
+    <div class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div class="col">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <p class="card-text">Дата и время первой отправки: {{ object.dt_of_first_shipment }}</p>
+                <p class="card-text">Дата и время окончания отправки: {{ object.end_dt_of_sending }}</p>
+                <p class="card-text">Статус: {{ object.status }}</p>
+                <p class="card-text">Сообщение: {{ object.message }}</p>
+                <p class="card-text">Получатели: {{ object.recipients }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                      <a class="btn btn-outline-warning" href="{% url 'mailings:forms_update' object.pk %}">редактировать</a>
+                      <a class="btn btn-outline-danger" href="{% url 'mailings:forms_delete' object.pk %}">удалить</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</form>
+</body>
+</html>
