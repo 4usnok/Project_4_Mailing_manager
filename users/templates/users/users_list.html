@@ -2,13 +2,10 @@
 <html lang="en">
 <head>
     {% include './includes/head.html' %}
+    <a href="{% url 'main_page:main_view' %}" class="btn btn-outline-secondary my-2">Вернуться на главную</a>
 </head>
-<body>
-<p>
-    <a href="{% url 'main_page:main_view' %}" class="btn btn-sm btn-outline-secondary"><h4>Вернуться на главную</h4></a>
-<p class="card-text">Ваше имя: {{ user }}</p>
-</p>
 <h1>Список пользователей</h1>
+<p class="card-text">Ваше имя: {{ user }}</p>
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
