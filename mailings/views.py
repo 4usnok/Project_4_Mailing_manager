@@ -1,5 +1,3 @@
-from idlelib.debugobj import dispatch
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
