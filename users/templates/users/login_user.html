@@ -1,0 +1,16 @@
+{% block content %}
+{% include './includes/head.html' %}
+    <a href="{% url 'main_page:main_view' %}" class="btn btn-outline-secondary my-2">Вернуться на главную</a>
+    <h1>Форма входа</h1>
+    <form method="post">
+        {% csrf_token %}
+        логин
+        <p><input type="text" name="username" placeholder="Логин"></p>
+        пароль
+        <p><input type="password" name="password" placeholder="Пароль"></p>
+        <p>
+            <input type="submit" value="Подтвердить" class="btn btn-sm btn-outline-success">
+            <a href="{% url 'users:password_reset' %}" >Забыли пароль ?</a>
+        </p>
+    </form>
+{% endblock %}

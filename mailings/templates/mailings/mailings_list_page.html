@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include './includes/head.html' %}
+    <a href="{% url 'main_page:main_view' %}" class="btn btn-outline-secondary my-2">Вернуться на главную></a>
+<body>
+</head>
+<h1>Список рассылок</h1>
+<a href="{% url 'mailings:forms_new_mail' %}" class="btn btn-outline-primary my-2">Добавить новую рассылку</a>
+<a href="{% url 'mailings:mail' %}" class="btn btn-outline-primary my-2" role="button">Отправить рассылку на почту</a>
+{% if perms.mailings.can_view_statics %}
+<a href="{% url 'mailings:statics' %}" class="btn btn-outline-primary my-2">Статистика</a>
+{% endif %}
+{% for mailings in mailings_context %}
+    <div class="album py-5 bg-body-tertiary">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div class="col">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <p class="card-text">Дата и время первой отправки: {{ object.dt_of_first_shipment }}</p>
+                <p class="card-text">Дата и время окончания отправки: {{ object.end_dt_of_sending }}</p>
+                <p class="card-text">Статус: {{ mailings.status }}</p>
+                <p class="card-text">Сообщение: {{ mailings.message }}</p>
+                <p class="card-text">Получатели: {{ mailings.recipients }}</p>
+                  {% if perms.mailings.can_disabling_mailings %}
+                  {% if mailings.status == 'Завершена' %}
+                  <form method="post" action="{% url 'mailings:dis_mailings' mailings.pk %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">отключить</button>
+                      <a class="btn btn-outline-primary" href="{% url 'mailings:forms_detail' mailings.pk %}">посмотреть</a>
+                  </form>
+                  {% else %}
+                  <form method="post" action="{% url 'mailings:dis_mailings' mailings.pk %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-success">включить</button>
+                      <a class="btn btn-outline-primary" href="{% url 'mailings:forms_detail' mailings.pk %}">посмотреть</a>
+                  </form>
+                  {% endif %}
+                  {% endif %}
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endfor %}
+</body>
+</html>
